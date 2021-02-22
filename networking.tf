@@ -47,3 +47,14 @@ resource "aws_route_table" "RT-Subnet" {
 	Name = "RT-Subnet"
 	}
 }
+
+resource "aws_route_table_association" "RTA-P-AV1" {
+  subnet_id      = aws_subnet.P-AV1.id
+  route_table_id = aws_route_table.RT-Subnet.id
+}
+
+resource "aws_route_table_association" "RTA-P-AV2" {
+  subnet_id      = aws_subnet.P-AV2.id
+  route_table_id = aws_route_table.RT-Subnet.id
+}
+
