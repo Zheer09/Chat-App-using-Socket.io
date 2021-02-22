@@ -28,3 +28,10 @@ resource "aws_subnet" "P-AV2" {
   }
 }
 
+resource "aws_internet_gateway" "GW" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "GW"
+  }
+}
