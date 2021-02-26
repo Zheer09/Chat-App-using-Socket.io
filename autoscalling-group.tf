@@ -17,9 +17,10 @@ resource "aws_autoscaling_group" "Dynamic-IN"{
 	health_check_type = "ELB"
 	launch_configuration = aws_launch_configuration.OS-Type.name
 	vpc_zone_identifier = [aws_subnet.P-AV1.id, aws_subnet.P-AV2.id]
+	target_group_arns=[aws_lb_target_group.Target-group.arn]
 
 	lifecycle {
 	  create_before_destroy = true
-	}
-
+	}	
 }
+
