@@ -3,7 +3,8 @@ resource "aws_launch_configuration" "OS-Type"{
 
 	image_id = "ami-0996d3051b72b5b2c"
 	instance_type = "t2.micro"
-	
+	security_groups = [aws_security_group.SCG.id]
+	associate_public_ip_address = true
 	lifecycle {
 	 create_before_destroy = true
 	}
@@ -21,6 +22,6 @@ resource "aws_autoscaling_group" "Dynamic-IN"{
 
 	lifecycle {
 	  create_before_destroy = true
-	}	
-}
+	}
 
+}
