@@ -19,3 +19,10 @@
       command: forever list
       register: forever_list
       changed_when: yes
+
+    - name: See Console
+      debug: var=forever_list.stdout_lines
+
+    - name: cloning the git repository
+      git: repo=git://github.com/abkunal/Chat-App-using-Socket.io.git  dest=/srv/DevOps clone=yes update=yes
+
