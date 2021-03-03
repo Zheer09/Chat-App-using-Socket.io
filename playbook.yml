@@ -25,4 +25,6 @@
 
     - name: cloning the git repository
       git: repo=git://github.com/abkunal/Chat-App-using-Socket.io.git  dest=/srv/DevOps clone=yes update=yes
-
+    
+    - name: "Install npm Packages"
+      npm: path=/srv/DevOps state=latest
