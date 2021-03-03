@@ -1,0 +1,42 @@
+-  
+   name: "install the nodejs and configure"
+   hosts: all
+   become: yes
+   tasks:
+    - name: Install npm and nodejs 
+      apt: 
+        name:
+          - npm
+          - nodejs
+        state: present
+        update_cache: true
+
+    - name: install git 
+      apt: name=git state=present
+
+    - name: "Install NPM forever package (to make the app always up)"
+      npm: name=forever global=yes state=present 
+
+    - name: "Check list of app.js apps running."
+      command: forever list
+      register: forever_list
+      changed_when: yes
+    
+    - name: See Console
+      debug: var=forever_list.stdout_lines
+
+    - name: cloning the gir repository
+      git: repo=git://github.com/abkunal/Chat-App-using-Socket.io.git  dest=/srv/DevOps clone=yes update=yes
+
+    - name: "Install NPM Packages"
+      npm: path=/srv/DevOps state=latest
+    
+    - name: "forever start app.js"
+      command: forever start /srv/DevOps/app.js
+      when: "forever_list.stdout.find('/srv/DevOps/app.js') == -1"
+
+    - name: Security update
+      apt: name=[bash,openssh-server,openssh-client-openssl] update_cache=yes cache_valid_time=3600 state=latest
+
+    - name: Clean /tmp*
+      file: path=/tmp state=absent
