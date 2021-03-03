@@ -1,0 +1,6 @@
+serv1 ansible_host=18.218.80.46 ansible_connection=ssh ansible_user=ubuntu
+serv2 ansible_host=3.139.80.108 ansible_connection=ssh ansible_user=ubuntu
+
+[all]
+serv1
+serv2
