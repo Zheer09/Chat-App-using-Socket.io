@@ -1,8 +1,8 @@
 # Chat-App-using-Socket.io
 Creating a aws server to deploy our Socket.io application on it
 
-**To access the AWS to create all the AWS resource **
-* You will need to put your access key and secret key *
+** To access the AWS to create all the AWS resource
+* You will need to put your access key and secret key
 
 ```
 provider "aws" {
@@ -31,8 +31,8 @@ provider "aws" {
 
 ### After Server have been created we need to install node and configure the appliction using ansible
 
-**To access the server in ansible **
-* You will need public IP address with ssh  *
+** To access the server in ansible 
+* You will need public IP address with ssh
 
 ```
 serv1 ansible_host="" ansible_connection=ssh ansible_user=ubuntu
