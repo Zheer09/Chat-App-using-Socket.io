@@ -14,9 +14,9 @@ resource "aws_launch_configuration" "OS-Type"{
 resource "aws_autoscaling_group" "Dynamic-IN"{
 	name = "Dynamic-EC2-instance"
 	min_size = 1
-	max_size = 4
+	max_size = 2
 	desired_capacity = 2
-	health_check_type = "ELB"
+	health_check_type = "EC2"
 	launch_configuration = aws_launch_configuration.OS-Type.name
 	vpc_zone_identifier = [aws_subnet.P-AV1.id, aws_subnet.P-AV2.id]
 	target_group_arns=[aws_lb_target_group.Target-group.arn]
