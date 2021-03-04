@@ -34,17 +34,7 @@
     - name: "Install NPM Packages"
       npm: path=/srv/DevOps state=latest
 
-    - name: configure nginx
-      copy: src={{ item }} dest=/etc/nginx/sites-available/
-      with_fileglob:
-        - /home/zheer/challenge/Chat-App-using-Socket.io/nginx/*
-      notify:
-        - restart nginx
-
     - name: "Run app: forever start app.js"
       command: forever start /srv/DevOps/app.js
       when: "forever_list.stdout.find('/srv/DevOps/app.js') == -1"
         
-   handlers:
-    - name: restart nginx
-      service: name=nginx state=restarted
