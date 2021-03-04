@@ -3,32 +3,48 @@
    hosts: all
    become: yes
    tasks:
-    - name: Install npm and nodejs 
+    - name: Install npm and nodejs and git
       apt: 
         name:
-          - npm
           - nodejs
+          - npm
           - git
+          - build-essential
+          - nginx
         state: present
         update_cache: true
 
-    - name: Install npm forever package (to make the app always up)
-      npm: name=forever global=yes state=present 
+    - name: start nginx
+      service: name=nginx state=started
 
-    - name: Check list of app.js apps running
+    - name: Install forever package (to make the app always up)
+      npm: name=forever global=yes state=present 
+    
+    - name: "Check list of Node.js apps running."
       command: forever list
       register: forever_list
-      changed_when: yes
+      changed_when: false
 
     - name: See Console
       debug: var=forever_list.stdout_lines
-
+    
     - name: cloning the git repository
       git: repo=git://github.com/abkunal/Chat-App-using-Socket.io.git  dest=/srv/DevOps clone=yes update=yes
     
-    - name: Install npm Packages
+    - name: "Install NPM Packages"
       npm: path=/srv/DevOps state=latest
 
-    - name: "forever start app.js"
+    - name: configure nginx
+      copy: src={{ item }} dest=/etc/nginx/sites-available/
+      with_fileglob:
+        - /home/zheer/challenge/Chat-App-using-Socket.io/nginx/*
+      notify:
+        - restart nginx
+
+    - name: "Run app: forever start app.js"
       command: forever start /srv/DevOps/app.js
       when: "forever_list.stdout.find('/srv/DevOps/app.js') == -1"
+        
+   handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
